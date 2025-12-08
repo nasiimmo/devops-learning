@@ -1,0 +1,837 @@
+## Bandit Level 0 → Level 1
+
+
+![Level 1](./screenshots/level-1.png)
+
+
+**Challenge:**  
+Find the password stored in a file called `readme` in the home directory. Use this password to SSH into `bandit1` on port 2220.
+
+**Solution:**
+```bash
+ls
+cat readme
+ssh bandit1@bandit.labs.overthewire.org -p 2220
+```
+
+**Explanation:**  
+- `ls` lists the files in the current directory.  
+- `cat readme` prints the contents of the file to reveal the password.  
+
+**Password:**  
+ZjLjTmM6FvvyRnrb2rfNWOZOTa6ip5If
+
+**What I learned:**  
+Basic file navigation, reading files using `cat`, and logging into levels via SSH.
+
+
+## Bandit Level 1 → Level 2
+
+![Level 2](./screenshots/level-2.png)
+
+**Challenge:**  
+The password for the next level is stored in a file called `-` located in the home directory.
+
+**Solution:**
+```bash
+ls
+cat ./-
+ssh bandit2@bandit.labs.overthewire.org -p 2220
+```
+
+**Explanation:**  
+- `ls` lists the files in the home directory so you can locate the file named `-`.  
+- `cat ./-` prints the contents of the file safely. The `./` prevents the shell from interpreting `-` as an option.  
+- `ssh bandit2@... -p 2220` logs into the next level using the retrieved password.
+
+**Password:**  
+263JGJPfgU6LtdEvgfWU1XP5yac29mFx
+
+**What I learned:**  
+Files with names starting with `-` require special handling in the shell. Prefixing with `./` ensures the shell treats the name as a file path rather than an option.
+
+## Bandit Level 2 → Level 3
+
+![Level 3](./screenshots/level-3.png)
+
+
+**Challenge:**  
+The password for the next level is stored in a file called `--spaces in this filename--` located in the home directory.
+
+**Solution:**
+```bash
+ls
+cat "--spaces in this filename--"
+```
+
+**Explanation:**  
+- `ls` lists the files in the home directory so you can see the file with spaces in its name.  
+- `cat "--spaces in this filename--"` reads the file by placing the full filename inside quotes so the shell interprets it correctly as one argument, including the spaces.
+
+**Password:**  
+MNk8KNH3Usiio41PRUEoDFPqfxLPlSmx
+
+**What I learned:**  
+How to handle filenames that contain spaces by wrapping them in quotes to ensure commands interpret the name correctly.
+
+
+## Bandit Level 3 → Level 4
+
+![Level 4](./screenshots/level-4.png)
+
+**Challenge:**  
+The password for the next level is stored in a hidden file inside the `inhere` directory.
+
+**Solution:**
+```bash
+ls
+cd inhere
+ls -a
+cat .hidden
+```
+
+**Explanation:**  
+- `ls` shows the contents of the current directory, revealing the `inhere` folder.  
+- `cd inhere` moves into that directory.  
+- `ls -a` lists all files, including hidden ones that start with a dot (`.`).  
+- `cat .hidden` displays the password stored in the hidden file.
+
+**Password:**  
+2WmrDFRmJIq3IPxneAaMGhap0pFhF3NJ
+
+**What I learned:**  
+Hidden files do not show up with a regular `ls`, so using the `-a` option is essential to reveal them.
+
+
+## Bandit Level 4 → Level 5
+
+
+![Level 5](./screenshots/level-5.png)
+
+**Challenge:**  
+The password for the next level is stored in the **only human-readable** file located in the `inhere` directory.
+
+**Solution:**
+```bash
+cd inhere
+ls
+file ./*
+cat ./-file07
+```
+
+
+**Explanation:**  
+- `cd inhere` enters the directory containing multiple oddly named files.  
+- `ls` lists all file names.  
+- `file ./*` checks each file’s type to determine which one is human-readable.  
+- `cat <filename>` displays the contents of the readable file to obtain the password.
+
+**Password:**  
+4oQYVPkxZOOEOO5pTW81FB8j8lxXGUQw
+
+**What I learned:**  
+The `file` command is extremely useful for identifying the type of data stored inside files, especially when filenames are random or unhelpful.
+
+
+## Bandit Level 5 → Level 6
+
+
+![Level 6](./screenshots/level-6.png)
+
+**Challenge:** Find a file with these properties:
+- Human-readable
+- 1033 bytes in size
+- Not executable
+
+**Solution:**
+```bash
+find . -type f -size 1033c ! -executable -exec file {} \; | grep text
+cat ./maybehere07/.file2
+```
+
+**Explanation:**
+- `find . -type f -size 1033c` searches for files exactly 1033 bytes
+- `! -executable` excludes executable files
+- `-exec file {} \;` runs `file` command on each result
+- `grep text` filters for human-readable files
+
+**Password:** 
+HWasnPhtq9AVKe0dmk45nxy20cvUa6EG
+
+**What I learned:** The `find` command is incredibly powerful for filtering files by multiple properties.
+
+## Bandit Level 6 → Level 7
+
+
+![Level 7](./screenshots/level-7.png)
+
+
+**Challenge:**  
+The password for the next level is stored **somewhere on the server** and has ALL of the following properties:
+- Owned by **user** `bandit7`  
+- Owned by **group** `bandit6`  
+- Exactly **33 bytes** in size  
+
+**Solution:**
+```bash
+find / -type f -user bandit7 -group bandit6 -size 33c 2>/dev/null
+cat /var/lib/dpkg/info/bandit7.password
+```
+
+**Explanation:**  
+- `find /` searches the entire filesystem since the file’s location is unknown.  
+- `-type f` limits the search to regular files.  
+- `-user bandit7` and `-group bandit6` match the required ownership.  
+- `-size 33c` filters for files exactly 33 bytes in size.  
+- `2>/dev/null` suppresses permission‑denied messages for cleaner output.  
+- `cat /var/lib/dpkg/info/bandit7.password` displays the password once the file is found.
+
+**Password:**  
+morbNTDkSW6jIlUc0ymOdMaLnOlFVAaj
+
+**What I learned:**  
+How to combine multiple `find` filters to pinpoint a specific file based on ownership and size, and how redirecting errors keeps output readable.
+
+
+## Bandit Level 7 → Level 8
+
+![Level 8](./screenshots/level-8.png)
+
+
+**Challenge:**  
+The password for the next level is stored in the file `data.txt`, next to the word **millionth**.
+
+**Solution:**
+```bash
+ls
+cat data.txt | grep millionth
+```
+
+**Explanation:**  
+- `ls` confirms that `data.txt` is in the current directory.  
+- `grep millionth` searches inside `data.txt` and prints the line containing the word **millionth**, which includes the password.
+
+**Password:**  
+dfwvzFQi4mU0wfNbFOe9RoWskMLg7eEc
+
+**What I learned:**  
+How to quickly locate specific text inside a file using `grep`, a powerful tool for searching patterns within large amounts of data.
+
+
+## Bandit Level 8 → Level 9
+
+
+![Level 9](./screenshots/level-9.png)
+
+
+**Challenge:**  
+The password for the next level is stored in `data.txt` and is the **only line that appears exactly once** in the file.
+
+**Solution:**
+```bash
+sort data.txt | uniq -u
+```
+
+**Explanation:**  
+- `sort data.txt` arranges all lines alphabetically so duplicates appear next to each other.  
+- `uniq -u` prints only the **unique** line — the one that occurs *exactly once* — which contains the password.
+
+**Password:**  
+4CKMh1JI91bUIZZPXDqGanal4xvAg0JM
+
+**What I learned:**  
+How to combine `sort` and `uniq` to detect unique or duplicate lines. This is a common pattern when analyzing large text files or log data.
+
+
+## Bandit Level 9 → Level 10
+
+
+[Level 10](./screenshots/level-10.png)
+
+
+**Challenge:**  
+The password for the next level is stored in `data.txt` as one of the few **human‑readable strings**, and it is **preceded by several `=` characters**.
+
+**Solution:**
+```bash
+strings data.txt | grep "===="
+```
+
+**Explanation:**  
+- `strings data.txt` extracts all printable human‑readable strings from the otherwise mostly binary file.  
+- `grep "===="` filters the output to lines containing multiple `=` signs, allowing you to quickly locate the one that includes the password.
+
+**Password:**
+FGUW5ilLVJrxX9kMYMmlN4MgbpfMiqey
+
+**What I learned:**  
+The `strings` command is essential for extracting readable text from binary or corrupted files, and combining it with `grep` makes pattern‑matching fast and efficient.
+
+
+## Bandit Level 10 → Level 11
+
+
+![Level 11](./screenshots/level-11.png)
+
+
+**Challenge:**  
+The password for the next level is stored in the file `data.txt`, which contains **base64‑encoded data**.
+
+**Solution:**
+```bash
+base64 -d data.txt
+```
+
+**Explanation:**  
+- `base64 -d` decodes base64-encoded content and prints the decoded output.  
+- Running this on `data.txt` reveals the password hidden within the encoded data.
+
+**Password:**  
+dtR173fZKb0RRsDFSGsg2RWnpNVj3qRr
+
+**What I learned:**  
+How to decode base64 content using the `base64` command. This is useful when data is encoded for transmission or storage in text-only formats.
+
+
+## Bandit Level 11 → Level 12
+
+
+![Level 12](./screenshots/level-12.png)
+
+
+**Challenge:**  
+The password for the next level is stored in `data.txt`, where all lowercase (a‑z) and uppercase (A‑Z) letters have been **rotated by 13 positions** (ROT13).
+
+**Solution:**
+```bash
+tr 'A-Za-z' 'N-ZA-Mn-za-m' < data.txt
+```
+
+**Explanation:**  
+- `tr 'A-Za-z' 'N-ZA-Mn-za-m'` translates each letter using the ROT13 cipher, effectively reversing the encoding.  
+- `< data.txt` feeds the content of the file into `tr`.  
+- The decoded output reveals the password.
+
+**Password:**  
+7x16WNeHIi5YkIhWsfFIqoognUTyj9Q4
+
+**What I learned:**  
+How to use `tr` for simple letter substitution ciphers, such as ROT13, which is often used to obfuscate text in a reversible way.
+
+
+## Bandit Level 12 → Level 13
+
+
+![Level 13](./screenshots/level-13.png)
+
+
+**Challenge:**  
+The password for the next level is stored in `data.txt`, which is a **hexdump** of a file that has been **repeatedly compressed** using different formats.  
+You need to:
+- Create a temporary working directory under `/tmp`  
+- Copy the file into it  
+- Reverse the hexdump  
+- Repeatedly identify and decompress the file until you reach the final password  
+
+**Solution:**
+```bash
+# Create a temporary working directory
+mktemp -d
+
+# Copy the data file into the temp directory
+cp ~/data.txt <temp-directory>
+
+# Convert the hexdump back to its original binary form
+xxd -r data.txt decoded.bin
+
+# Identify the file type to determine how to decompress it
+file decoded.bin
+
+# Repeatedly decompress based on file type (gzip, bzip2, tar, etc.)
+# Examples of commands used during the process:
+gunzip <file>
+bunzip2 <file>
+tar -xf <file>
+
+# After multiple layers are removed, display the final file to get the password
+cat <final-file>
+```
+
+**Explanation:**  
+- `mktemp -d` creates a unique temporary directory to avoid clutter and filename conflicts.  
+- `cp` copies the original `data.txt` into your working location.  
+- `xxd -r` reverses the hexdump, reconstructing the original binary file.  
+- `file` determines the format of each layer (gz, bz2, tar, etc.).  
+- You repeatedly decompress each layer using the correct tool until the final uncompressed text file appears.  
+- `cat` reveals the password stored at the end of the chain.
+
+**Password:**  
+FO5dwFsc0cbaIiH0h8J2eUks2vdTDwAn
+
+**What I learned:**  
+How to reverse a hexdump, identify unknown file types, and peel back multiple compression layers. This level reinforces the importance of methodical workflow, using `/tmp` safely, and relying on `file` to determine the correct decompression tool each step of the way.
+
+
+## Bandit Level 13 → Level 14
+
+![Level 14](./screenshots/level-14.png)
+
+
+**Challenge:**  
+The password for the next level is stored in `/etc/bandit_pass/bandit14`, but it can only be read by **user bandit14**.  
+Instead of a password, you are provided with a **private SSH key** (`sshkey.private`) that you must use to authenticate as bandit14.
+
+**Solution:**
+```bash
+# View the private key provided in the home directory
+ls
+cat sshkey.private
+
+# Set correct permissions so SSH accepts the key
+chmod 600 sshkey.private
+
+# Log into the next level using the private key
+ssh -i sshkey.private bandit14@bandit.labs.overthewire.org -p 2220
+
+# Once logged in as bandit14, read the password file
+cat /etc/bandit_pass/bandit14
+```
+
+**Explanation:**  
+- `ls` and `cat` allow you to inspect the private SSH key provided for this level.  
+- `chmod 600 sshkey.private` is required because SSH refuses to use keys with insecure permissions.  
+- `ssh -i sshkey.private` logs you in as **bandit14** using the key instead of a password.  
+- After logging in as the correct user, `cat /etc/bandit_pass/bandit14` reads the password normally.
+
+**Password:**  
+MU4VWeTyJk8ROof1qqmcBPaLh7lDCPvS
+
+**What I learned:**  
+How to use SSH private keys for authentication, why key permissions matter, and how keys can grant access in place of passwords.
+
+
+## Bandit Level 14 → Level 15
+
+
+![Level 15](./screenshots/level-15.png)
+
+
+**Challenge:**  
+The password for the next level can be retrieved by **sending the current level’s password** to **port 30000** on `localhost`.
+
+**Solution:**
+```bash
+# Connect to port 30000 on localhost
+nc localhost 30000
+
+# Once connected, type or paste the current password
+<enter-current-password>
+```
+
+**Explanation:**  
+- `nc localhost 30000` opens a raw network connection to the service listening on port **30000**.  
+- After connecting, you simply enter the current password, and the service responds by printing the password for the next level.
+
+**Password:**  
+8xCjnmgoKbGLhHFAZlGE5Tmu4M2tKJQo
+
+**What I learned:**  
+How to use `nc` (netcat) to interact with simple network services by sending data directly to a port. This demonstrates basic client–server communication without needing a browser or advanced tools.
+
+
+## Bandit Level 15 → Level 16
+
+
+![Level 16](./screenshots/level-16.png)
+
+**Challenge:**  
+The password for the next level can be retrieved by sending the **current level’s password** to **port 30001** on `localhost`, but this time the connection must use **SSL/TLS encryption**.
+
+**Solution:**
+```bash
+# Connect to port 30001 using SSL/TLS
+openssl s_client -connect localhost:30001
+
+# After the connection is established, type or paste the current password
+<enter-current-password>
+```
+
+**Explanation:**  
+- `openssl s_client -connect localhost:30001` opens an encrypted SSL/TLS session with the server running on port **30001**.  
+- Once the secure connection is active, entering the current password causes the server to return the password for the next level.  
+- The messages like “DONE”, “RENEGOTIATING”, or “KEYUPDATE” are normal SSL session outputs.
+
+**Password:**  
+kSkvUpMQ7lBYyCM4GBPvCvT1BfWRy0Dx
+
+**What I learned:**  
+How to use `openssl s_client` to establish encrypted connections, and how SSL/TLS differs from plain-text communication such as with `nc`.
+
+
+## Bandit Level 16 → Level 17
+
+![Level 17](./screenshots/level-17.png)
+
+**Challenge:**  
+The credentials for the next level can be obtained by sending the **current password** to **one port between 31000–32000** on `localhost`.  
+You must:
+1. Identify which ports in that range are open.  
+2. Determine which of those speak **SSL/TLS**.  
+3. Submit the password to the *correct* SSL-enabled service.  
+Only **one** port will return the next credentials.
+
+**Solution:**
+```bash
+# Scan ports 31000–32000 to find which ones are open
+nmap -p 31000-32000 localhost
+
+# Try connecting to the open ports using SSL/TLS
+openssl s_client -connect localhost:<open-port>
+
+# Once connected to the SSL-capable port, enter the current password
+<enter-current-password>
+```
+
+**Explanation:**  
+- `nmap -p 31000-32000 localhost` scans all ports in that range, showing which ones are accepting connections.  
+- Some open ports speak plain text, others speak SSL/TLS.  
+- `openssl s_client -connect` attempts to make an encrypted connection; only the correct port will accept SSL and return the next credentials after you provide the current password.  
+- Other ports simply echo your input back.
+
+**Password:**  
+Password is a private key
+
+**What I learned:**  
+How to scan ports with `nmap`, differentiate encrypted vs. unencrypted services, and use `openssl s_client` to interact with SSL/TLS services. This level is a great introduction to basic network reconnaissance and protocol identification.
+
+
+## Bandit Level 17 → Level 18
+
+![Level 18](./screenshots/level-18.png)
+
+**Challenge:**  
+You are given two files in the home directory: `passwords.old` and `passwords.new`.  
+The password for the next level is the **only line that is different** between these two files.
+
+**Solution:**
+```bash
+diff passwords.old passwords.new
+```
+
+**Explanation:**  
+- `diff` compares the contents of both files line by line.  
+- It prints only the changed lines, letting you immediately identify the updated password in `passwords.new`.  
+- The line shown from `passwords.new` is the password for the next level.
+
+**Password:**  
+x2gLTTjFwMOhQ8oWNbMN362QKxfRqGlO
+
+**What I learned:**  
+How to use `diff` to quickly spot differences between two files — especially useful for configuration changes, version comparisons, or detecting modified credentials.
+
+
+## Bandit Level 18 → Level 19
+
+
+![Level 19](./screenshots/level-19.png)
+
+**Challenge:**  
+The password for the next level is stored in a file `readme` in the home directory.  
+However, `.bashrc` has been modified to **log you out immediately** when you log in via SSH.
+
+**Solution:**
+```bash
+# Prevent .bashrc from executing by passing a command directly
+ssh bandit19@bandit.labs.overthewire.org -p 2220 'cat ~/readme'
+```
+
+**Explanation:**  
+- Normally logging in triggers `.bashrc`, which logs you out.  
+- By providing a command to SSH (`'cat ~/readme'`), the shell executes the command without starting the interactive session, bypassing `.bashrc`.  
+- This prints the password stored in `readme`.
+
+**Password:**  
+cGWpMaKXVwDUNgPAVJbWYuGHVn9zl3j8
+
+**What I learned:**  
+How to bypass login scripts like `.bashrc` when they interfere with interactive sessions by using SSH to execute commands directly.
+
+
+## Bandit Level 19 → Level 20
+
+
+![Level 20](./screenshots/level-20.png)
+
+
+**Challenge:**  
+To gain access to the next level, you must use the **setuid binary** located in the home directory.  
+Running the binary without arguments explains how to use it.  
+After using it correctly, you can read the password from `/etc/bandit_pass/bandit20`.
+
+**Solution:**
+```bash
+# List files in the home directory
+ls
+
+# Run the setuid helper without arguments to see usage instructions
+./bandit20-do
+
+# Use the setuid binary to read the password file as bandit20
+./bandit20-do cat /etc/bandit_pass/bandit20
+```
+
+**Explanation:**  
+- `./bandit20-do` is a **setuid binary**, meaning it runs with the permissions of another user (in this case, **bandit20**).  
+- Running it without arguments displays the intended usage format.  
+- Using it to run the command `cat /etc/bandit_pass/bandit20` prints the password, because the binary grants temporary permission to read files as the bandit20 user.
+
+**Password:**  
+GbKksEFF4yrVs6il55v6gwY5aVje5f0j
+
+**What I learned:**  
+How setuid binaries work, how they temporarily grant elevated privileges, and how to use them safely to run commands as another user.
+
+
+All notes from chapters.
+
+##  Basic Directories
+
+| Directory | Meaning |
+|----------|---------|
+| /root    | Home directory for the root (superuser) |
+| /tmp     | Temporary files |
+| /sbin    | System binaries |
+| /lib     | Shared library modules |
+| /run     | Run-time program data |
+| /var     | Files that change frequently (logs, caches, etc.) |
+
+
+##  Navigation & File Operations
+
+### Working with Directories
+pwd                 # Show current directory
+cd folder           # Enter folder
+cd ..               # Move up one directory
+ls                  # List files
+ls -a               # List ALL files including hidden
+ls -R               # List recursively
+
+
+### Creating Directories
+mkdir project
+mkdir -p project/src/components   # Create nested directories
+
+
+### Creating & Editing Files
+touch file.txt      # Create empty file
+echo "Hello" > file.txt      # Overwrite file
+echo "More text" >> file.txt # Append to file
+
+
+### Moving & Copying
+mv old new          # Rename or move file
+cp file1 file2      # Copy file
+cp -r folder1 folder2   # Copy directory
+
+
+### Removing
+rm file.txt         # Remove file
+rm -r folder        # Remove folder and contents
+rmdir folder        # Remove EMPTY folder
+
+
+### Running Files
+./script.sh
+bash script.sh
+
+
+##  Viewing File Contents
+
+### Basic
+cat file.txt
+head file.txt
+tail file.txt
+
+
+### Specify number of lines
+head -n 5 file.txt    # First 5 lines
+tail -n 5 file.txt    # Last 5 lines
+
+
+### Extracting specific lines
+head -n 10 file.txt | tail -n 5     # Lines 6–10
+
+
+#  Searching & Filtering Tools
+
+##  grep — Search Text
+grep "word" file.txt
+grep -i "word" file.txt     # Case-insensitive
+grep -r "word" directory    # Recursive search
+grep "word" *.txt           # Search inside all .txt files
+
+
+##  sort & uniq
+sort file.txt
+uniq file.txt                    # Remove consecutive duplicates
+sort file.txt | uniq -u          # Show unique lines only
+
+
+##  sed — Stream Editor
+
+### Replace Text
+sed 's/old/new/' file.txt        # First occurrence per line
+sed 's/old/new/g' file.txt       # Replace ALL
+sed -i 's/old/new/g' file.txt    # Replace in-place
+
+
+### Delete Lines
+sed '1d' file.txt         # Delete line 1
+sed '1,5d' file.txt       # Delete lines 1–5
+sed '/error/d' file.txt   # Delete all lines containing "error"
+
+
+### Print Specific Lines
+sed -n '1p' file.txt
+sed -n '1,5p' file.txt
+sed -n '/pattern/p' file.txt
+
+
+#  Permissions & Ownership
+
+##  Permission Types
+r = read
+w = write
+x = execute
+
+### User groups
+u — user (owner)
+g — group
+o — others
+a — all
+
+
+### Numeric
+7 = rwx
+6 = rw
+5 = r-x
+4 = r
+
+chmod 755 script.sh
+
+
+##  chown & chgrp — Ownership
+sudo chown user:group file.txt
+sudo chgrp group file.txt
+sudo chown -R user:group directory/
+
+
+#  User & Group Management
+
+### Create User
+sudo useradd newuser
+sudo passwd newuser
+
+
+### Give Sudo Access
+sudo usermod -aG sudo newuser
+
+### Remove Sudo Access
+sudo deluser newuser sudo
+
+
+### Create/Delete Groups
+sudo groupadd staff
+sudo usermod -aG staff newuser
+sudo gpasswd -d newuser staff
+sudo groupdel staff
+
+#  Processes, Jobs & System Monitoring
+
+##  View Processes
+ps aux
+ps auxf      # Tree view
+
+
+##  Monitor System
+top
+htop
+
+
+##  Job Control
+sleep 100 &
+jobs             # Show background jobs
+fg %1            # Bring job to foreground
+bg %1            # Resume background job
+
+
+### Stop or Kill Processes
+kill -19 PID     # Stop
+kill -9 PID      # Force kill
+
+
+##  lsof — List Open Files
+lsof file.txt    # Show what processes use a file
+
+
+#  Networking
+ping -c 5 google.com
+
+
+#  Encoding, Hashing & Binary Tools
+
+##  SHA1 Checksum
+sha1sum file.txt
+
+##  Base64
+base64 file.txt > encoded.txt
+base64 -d encoded.txt > decoded.txt
+
+
+##  strings — Extract readable text
+strings binaryfile
+
+
+#  Vim Editor
+
+## Modes
+Command mode — movement, delete, copy
+Insert mode — i
+Visual mode — v
+
+
+## Important Commands
+:wq     # Save and quit
+:q!     # Quit without saving
+dd      # Delete line
+yy      # Copy line
+p       # Paste
+u       # Undo
+Ctrl+r  # Redo
+:set number  # Show line numbers
+
+
+## Movement
+0 = Start of line
+$ = End of line
+w = Next word
+b = Previous word
+
+
+#  Miscellaneous
+
+### History shortcut
+!!
+
+### Redirect to /dev/null
+command > /dev/null        # Hide output
+command 2> /dev/null       # Hide errors
+
+### Find executable path
+which ls
+
+### Handle spaces
+mkdir my\ folder
+cd "my folder"
+
+

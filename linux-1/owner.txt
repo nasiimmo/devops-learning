@@ -1,0 +1,13 @@
+Commands i used to create a file that only i, the owner can read/write, but others can only read
+
+# Create a script
+echo '#!/bin/bash\necho "Hello DevOps"' > starter.sh
+
+# Set permissions so only you can read/write, others can only read
+chmod 604 starter.sh            # Owner: read/write (6), Group: no permission (0), Others: read (4)
+
+# Check permissions
+ls -l starter.sh
+# Output: -rw----r--  1 admin staff 32 Dec 05 09:09 starter.sh
+# Breakdown: owner(rw-) group(---) others(r--)
+

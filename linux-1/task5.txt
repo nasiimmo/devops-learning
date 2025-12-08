@@ -1,0 +1,8 @@
+
+
+grep '/bin/bash' /etc/passwd      # Find all lines in /etc/passwd with /bin/bash
+
+awk -F: '$7=="/bin/bash" {print $1}' /etc/passwd   # Print usernames only
+
+_mbsetupuser
+

@@ -1,0 +1,21 @@
+# Background Processes, Jobs, and Killing a Process
+
+ping -c 10000 networknew.com &     # Run ping in the background as a process
+
+fg %1                              # Bring job 1 from background to foreground
+
+jobs                               # List background jobs
+
+[1]+  Running       ping -c 10000 networknew.com &
+
+ps                                 # Show running processes with their PIDs
+
+  PID   TTY           TIME CMD
+14202   pts/0    0:00.00 ping -c 10000 networknew.com
+
+kill -9 14202                      # Force-kill the ping process using its PID
+
+jobs                               # List background jobs
+
+[1]+  Killed:       ping -c 10000 networknew.com
+
