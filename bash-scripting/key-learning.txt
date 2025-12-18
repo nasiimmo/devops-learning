@@ -1,0 +1,27 @@
+Key Learnings
+
+Understanding Bash fundamentals
+I learned how to use core Bash concepts such as variables, conditionals (if statements), loops, and functions. This helped me build scripts that can take user input, make decisions, and automate tasks.
+
+
+File and directory operations
+I gained confidence working with files and directories using commands like mkdir, cd, cp, cat, and file test operators such as -f, -r.
+
+
+Input validation and error handling
+I learned how to safely handle errors, such as preventing division by zero and checking if a file exists before performing operations. Using checks like [ "$num2" -ne 0 ] and Bash options like set -u helped make scripts more reliable.
+
+
+One Challenge I Overcame
+
+One of the main challenges I faced was figuring out how to include the current date in my Bash scripts. At first, I wasn’t sure how to format or store the date correctly. I got stuck when trying to add timestamps to backup directories and files.
+
+To overcome this, I used Stack Overflow and official documentation to research how the date command works in Bash. After experimenting with different formats, I learned how to use: $(date +%Y-%m-%d_%H-%M)
+
+
+Why Bash Matters in DevOps
+
+Bash is essential in DevOps because it allows engineers to automate repetitive tasks, manage files and systems, and glue different tools together efficiently.
+
+
+learning Bash gave me a stronger foundation for DevOps work by helping me think more logically, automate tasks, and understand how systems operate behind the scenes.
