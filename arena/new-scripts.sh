@@ -2,51 +2,53 @@
 
 
 # Create a directory called Arena_Boss to store generated files
-mkdir Arena_Boss
+# mkdir Arena_Boss
 
-# Loop 5 times to create 5 text files
-for i in {1..5}
-do
-    # Define the filename using the loop counter
-    FILE="Arena_Boss/file$i.txt"
+# # Loop 5 times to create 5 text files
+# for i in {1..5}
+# do
+#     # Define the filename using the loop counter
+#     FILE="Arena_Boss/file$i.txt"
 
-    # Generate a random number of lines between 10 and 20
-    # RANDOM % 11 gives 0–10, +10 ensures at least 10 lines
-    LINES=$((RANDOM % 11 + 10))
+#     # Generate a random number of lines between 10 and 20
+#     # RANDOM % 11 gives 0–10, +10 ensures at least 10 lines
+#     LINES=$((RANDOM % 11 + 10))
 
-    # Inner loop to write lines into the file
-    for j in $(seq 1 $LINES)
-    do
-        # Append a line of text to the file
-        echo "This is line $j" >> "$FILE"
-    done
-done
+#     # Inner loop to write lines into the file
+#     for j in $(seq 1 $LINES)
+#     do
+#         # Append a line of text to the file
+#         echo "This is line $j" >> "$FILE"
+#     done
+# done
 
-# Display a heading before showing sorted files
-echo "Files sorted by size:"
+# # Display a heading before showing sorted files
+# echo "Files sorted by size:"
 
-# Find all files in Arena_Boss
-# -exec ls -lh lists file details with human-readable sizes
-# sort -k 5,5 -h sorts files by size (smallest to largest)
-find Arena_Boss -type f -exec ls -lh {} + | sort -k 5,5 -h
 
-# Create the Victory_Archive directory if it does not already exist
-mkdir -p Victory_Archive
 
-# Loop through all .txt files in Arena_Boss
-for FILE in Arena_Boss/*.txt
-do
-    # Check if the file contains the word "Victory"
-    # -q runs grep quietly (no output, just exit status)
-    if grep -q "Victory" "$FILE"; then
+# # Find all files in Arena_Boss
+# # -exec ls -lh lists file details with human-readable sizes
+# # sort -k 5,5 -h sorts files by size (smallest to largest)
+# find Arena_Boss -type f -exec ls -lh {} + | sort -k 5,5 -h
 
-        # Move files containing "Victory" to Victory_Archive
-        mv "$FILE" Victory_Archive/
+# # Create the Victory_Archive directory if it does not already exist
+# mkdir -p Victory_Archive
 
-        # Confirm the file was moved
-        echo "$FILE contains 'Victory' and has been moved to Victory_Archive."
-    fi
-done
+# # Loop through all .txt files in Arena_Boss
+# for FILE in Arena_Boss/*.txt
+# do
+#     # Check if the file contains the word "Victory"
+#     # -q runs grep quietly (no output, just exit status)
+#     if grep -q "Victory" "$FILE"; then
+
+#         # Move files containing "Victory" to Victory_Archive
+#         mv "$FILE" Victory_Archive/
+
+#         # Confirm the file was moved
+#         echo "$FILE contains 'Victory' and has been moved to Victory_Archive."
+#     fi
+# done
 
 
 
@@ -65,6 +67,7 @@ done
 #     echo "Directory does not exist."
 #     exit 1
 # fi
+
 
 # # Monitor the directory recursively for file system changes
 # # fswatch continuously watches for file events
