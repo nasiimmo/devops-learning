@@ -3,12 +3,12 @@ AWS Custom VPC Deployment
 
 Created a custom VPC with CIDR block 10.0.0.0/16
 
-![Created VPC](./screenshots/VPC-created.png)
+![Created VPC](./screenshots/vpc-created.png)
 
 
 Created one public and private subnet
 
-![Created subnets](./screenshots/Subnet-created.png)
+![Created subnets](./screenshots/subnet-created.png)
 
 
 2. Internet Access
@@ -19,7 +19,7 @@ Created and attached an Internet Gateway (IGW) to the VPC
 
 Allocated an Elastic IP
 
-![Allocated Elastic-IP](./screenshots/elastic-IP.png)
+![Allocated Elastic-IP](./screenshots/elastic-ip.png)
 
 Created a NAT Gateway in the public subnet using the Elastic IP
 
@@ -31,7 +31,7 @@ Created a public route table
 
 Added a default route (0.0.0.0/0) pointing to the Internet Gateway
 
-![Added IGW](./screenshots/IGW-route.png)
+![Added IGW](./screenshots/igw-route.png)
 
 Associated it with the public subnet
 
