@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>AWS ALB with Private EC2 Instances</title>
 </head>
 <body>
 
