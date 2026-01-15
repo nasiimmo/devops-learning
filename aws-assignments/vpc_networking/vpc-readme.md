@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>AWS Custom VPC Deployment</title>
+  
 </head>
 <body>
   <h1>AWS Custom VPC Deployment</h1>
