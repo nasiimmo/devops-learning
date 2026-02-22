@@ -12,7 +12,7 @@ def welcome():
 @app.route('/count')
 def visit_count():
     visit_count = r.incr('visits')
-    return f'This page page has been visited {visit_count} times'
+    return f'This page has been visited {visit_count} times'
 
 if  __name__ == '__main__':
     app.run(host='0.0.0.0', port=5005)
