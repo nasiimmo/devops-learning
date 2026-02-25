@@ -3,7 +3,7 @@ resource "aws_instance" "project" {
   instance_type = var.instance_type
   vpc_security_group_ids = var.project_sg
   key_name = var.key_pair_name
-  user_data = file("user_data.yaml")
+  user_data = file("user_data.sh")
   subnet_id = var.public_subnet_id
   associate_public_ip_address = true
   tags = {
@@ -11,4 +11,3 @@ resource "aws_instance" "project" {
   }
   
 }
-
