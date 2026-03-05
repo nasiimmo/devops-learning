@@ -1,0 +1,16 @@
+name: coderco custom Action CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout cod
+      uses: actions/checkout@v4
+
+    - name: hello world custom action
+      uses: nasiimmo/coderco-custom@main
+      with:
+        who-to-greet: 'CoderCo Team'

@@ -1,0 +1,19 @@
+# Key-value pairs
+
+name: bob proctor
+age: 80
+occupation: motivational speaker
+
+# Lists
+hobbies:
+  - reading
+  - writing
+  - speaking
+
+# Nested elements 
+address:
+  street: 123 Main St
+  city: London
+  country: UK
+
+

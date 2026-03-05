@@ -1,0 +1,48 @@
+name: CoderCo Manual Workflow
+
+on: 
+  push:
+    workflows_dispatch: true
+    inputs:
+      python-version:
+        description: 'Python version to test against'
+        required: true
+        default: '3.8'
+        type: choice
+        options:
+          - '3.8'
+          - '3.9'
+          - '3.10'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.9", "3.10"]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: setup python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+
+    - name: Install dependencies
+      run: |
+        cd chapter3
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+    - name: Run tests
+      run: |
+        cd chapter3
+        python -m unittest discover
+
+    - name: notify us of success 
+      run: echo "All tests passed on python ${{ matrix.python-version }}"
+      if: success()
