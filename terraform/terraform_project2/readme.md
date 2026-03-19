@@ -1,31 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Assignment 2 – EC2 Deployment with Cloud-Init</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 0 20px;
-      color: #333;
-    }
-    h1, h2, h3 {
-      colour: #222;
-    }
-    code {
-      background: #f4f4f4;
-      padding: 2px 5px;
-      border-radius: 3px;
-      font-family: monospace;
-    }
-    ul {
-      margin-left: 20px;
-    }
-  </style>
-</head>
+
 <body>
 
   <h1>Assignment 2 – EC2 Deployment with Cloud-Init</h1>

@@ -1,28 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      color: #333;
-    }
-    h1, h2, h3 {
-      colour: #222;
-    }
-    code {
-      background: #f4f4f4;
-      padding: 2px 5px;
-      border-radius: 3px;
-      font-family: monospace;
-    }
-    ul {
-      margin-left: 20px;
-    }
-  </style>
-</head>
-<body>
+
 
   <h1>Assignment 1 – Deploy WordPress Using Terraform</h1>
 
